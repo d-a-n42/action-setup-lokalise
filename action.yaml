@@ -15,7 +15,6 @@ inputs:
   token:
     required: false
     description: Github access token
-    default: ${{ secrets.GITHUB_TOKEN }}
 outputs:
   version:
     description: The version of the Lokalise CLI that was installed
