@@ -12,6 +12,10 @@ inputs:
     required: false
     description: The version of the Lokalise CLI to install
     default: latest
+  token:
+    required: false
+    description: Github access token
+    default: ${{ secrets.GITHUB_TOKEN }}
 outputs:
   version:
     description: The version of the Lokalise CLI that was installed
@@ -25,7 +29,7 @@ runs:
       run: |
         version="v$( echo '${{ inputs.version }}' | sed s/^v//)"
         if [[ "${{ inputs.version }}" == "latest" ]]; then
-          version=$(curl -s https://api.github.com/repos/lokalise/lokalise-cli-2-go/releases/latest | jq -r '.tag_name')
+          version=$(curl -s --header 'Authorization: Bearer ${{ inputs.token }}' https://api.github.com/repos/lokalise/lokalise-cli-2-go/releases/latest | jq -r '.tag_name')
         fi
 
         if [[ "$version" == "null" ]]; then
